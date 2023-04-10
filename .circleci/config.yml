@@ -1,38 +1,7 @@
-version: 2.1
-
-# Define the jobs we want to run for this project
-jobs:
-  build:
-    docker:
-      - image: cimg/base:2023.03
-    steps:
-      - checkout
-      - run: echo "this is the build job"
-  prepare-rabbit:
-    docker:
-      - image: cimg/python:3.7
-    steps:
-      - checkout
-      - setup_remote_docker
-      - run:
-          name: Clone git
-          command: |
-            git clone https://github.com/ngthvan1612/video-server-app-test-01
-      - run:
-          name: Install dependencies
-          command: |
-            cd video-server-app-test-01
-            sudo apt-get update
-            sudo apt-get install docker-compose
-            sudo apt-get install docker
-            docker-compose build
-            docker-compose up
-      - run:
-          name: Install video server app
-          command: |
-            echo "OK nhe"
-# Orchestrate our job run sequence
-workflows:
-  build_and_test:
-    jobs:
-      - prepare-rabbit
+@pytest.mark.skip
+    def delete_project(self, project_id):
+        resp = requests.delete(URL_DELETE_PROJECT + str(project_id))
+        if resp.status_code == 204:
+            return True
+        else:
+            return json.loads(resp.text)
